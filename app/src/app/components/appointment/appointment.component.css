@@ -7,3 +7,11 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 768px) {
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    width: 100%;
+    font-size: smaller;
+    padding: 0 8px;
+  }
+}

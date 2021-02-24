@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Appointment } from 'src/app/model/Appointment';
 import { AppointmentsService } from 'src/app/service/appointments.service';
 import { mergeMap } from 'rxjs/operators';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-appointment-list',
   templateUrl: './appointment-list.component.html',
-  styleUrls: ['./appointment-list.component.css']
+  styleUrls: ['./appointment-list.component.scss']
 })
 export class AppointmentListComponent implements OnInit {
 

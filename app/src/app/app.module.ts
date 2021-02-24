@@ -20,6 +20,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
 import { AppointmentComponent } from './components/appointment/appointment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatTableResponsiveModule } from './directive/mat-table-reponsive/mat-table-reponsive.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatDatepickerModule,
     MatNativeDateModule,
     MatToolbarModule,
-    NgbModule
+    NgbModule,
+    MatTableResponsiveModule
   ],
   providers: [],
   bootstrap: [AppComponent]
