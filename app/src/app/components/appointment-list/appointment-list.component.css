@@ -1,0 +1,20 @@
+table {
+  margin-top: 50px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .appointment-container table {
+    display: flex;
+  }
+
+  .header-rows {
+    display: grid;
+    height: 300px;
+  }
+
+  .appointment-row {
+    display: grid;
+    height: 300px;
+  }
+}
