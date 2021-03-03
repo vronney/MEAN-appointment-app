@@ -2,26 +2,52 @@
 <mat-toolbar *ngIf="errorMsg" color="warn">{{ errorMsg }}</mat-toolbar>
 
 <div class="form-container">
-  <form (submit)="createAppointment()">
+  <h1>Book Your Appointment</h1>
+  <form #appointmentForm="ngForm" (submit)="createAppointment(appointmentForm)">
     <mat-form-field>
-      <input [(ngModel)]="appointmentDate" name="appointmentDate" matInput [matDatepicker]="picker" placeholder="Choose a date">
+      <input [ngModel]="appointment?.appointmentDate" name="appointmentDate" matInput [matDatepicker]="picker" placeholder="Choose a date" required #appointmentDate="ngModel">
+      <mat-error
+          *ngIf="appointmentDate.invalid"
+          class="mb-2">
+          Please enter a date for your appointment
+        </mat-error>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
-      <input [(ngModel)]="name" name="name" matInput placeholder="Name">
+      <input [ngModel]="appointment?.name" name="name" matInput placeholder="Name" required #name="ngModel">
+      <mat-error
+          *ngIf="name.invalid"
+          class="mb-2">
+          Please enter a name
+        </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input [(ngModel)]="description" name="description" matInput placeholder="What is needed?">
+      <input [ngModel]="appointment?.description" name="description" matInput placeholder="What is needed?" required #description="ngModel">
+      <mat-error
+          *ngIf="description.invalid"
+          class="mb-2">
+          Please enter a description of your appointment
+        </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input [(ngModel)]="phone" name="phone" matInput placeholder="XXX-XXX-XXXX">
+      <input [ngModel]="appointment?.phone" name="phone" matInput placeholder="XXX-XXX-XXXX" type="tel" required #phone="ngModel">
+      <mat-error
+          *ngIf="phone.invalid"
+          class="mb-2">
+          Please enter your phone number
+        </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input [(ngModel)]="email" name="email" matInput placeholder="email@gmail.com">
+      <input [ngModel]="appointment?.email" name="email" matInput placeholder="email@gmail.com" type="email" required #email="ngModel">
+      <mat-error
+          *ngIf="email.invalid"
+          class="mb-2">
+          Please enter your email
+        </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary">Make Appointment</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="appointmentForm.invalid">Make Appointment</button>
   </form>
 </div>

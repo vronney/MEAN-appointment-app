@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Appointment } from 'src/app/model/Appointment';
 import { AppointmentsService } from 'src/app/service/appointments.service';
 
@@ -15,27 +17,24 @@ export class AppointmentComponent implements OnInit {
   description: string;
   phone: number;
   email: string;
+  appointment: Appointment;
+  appointmentId: string;
 
-  constructor(private appointmentService: AppointmentsService) { }
+  constructor(private appointmentService: AppointmentsService, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
-  createAppointment() {
+  createAppointment(form: NgForm) {
     this.successMsg = '';
     this.errorMsg = '';
-    this.appointmentService.createAppointment(this.appointmentDate, this.name, this.description, this.phone, this.email)
-      .subscribe((createdAppointment: Appointment) => {
-        this.appointmentDate = '';
-        this.name = '';
-        this.description = '';
-        this.phone = 123-456-7890;
-        this.email = '';
-        const appointmentDate = new Date(createdAppointment.appointmentDate).toDateString();
-        this.successMsg = `Appointment Booked successfully for ${appointmentDate}`;
-      },
-      (error: ErrorEvent) => {
-        this.errorMsg = error.error.message;
-      });
+      if (form.invalid) {
+        return;
+      } else {
+        this.appointmentService.addAppointment(form.value.appointmentDate, form.value.name, form.value.description, form.value.phone, form.value.email);
+        const date = new Date(form.value.appointmentDate).toDateString()
+        this.successMsg = `Appointment Booked successfully for ${date}`;
+      }
+      form.resetForm();
   }
 }

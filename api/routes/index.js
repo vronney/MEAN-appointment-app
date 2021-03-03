@@ -1,37 +1,37 @@
-var express = require('express');
-var router = express.Router();
-const ObjectID = require('mongodb').ObjectID;
+const express = require('express');
+const router = express.Router();
+const Appointment = require('../models/appointment');
 
 router.get('/appointments', (req, res, next) => {
-  req.collection.find({})
-    .toArray()
-    .then(results => res.json(results))
-    .catch(error => res.send(error));
-})
+  Appointment.find().then(documents => {
+    res.status(200).json({
+      message: "Appointment fetched successfully!",
+      appointments: documents
+    });    
+  });
+});
 
 router.post('/appointments', (req, res, next) => {
-  const { appointmentDate, name, description, phone, email } = req.body;
-  if (!appointmentDate || !name || !description || !phone || !email) {
-    return res.status(400).json({
-      message: 'Appointment date, name, description, phone and email required'
+  const appointments = new Appointment({
+    appointmentDate: req.body.appointmentDate,
+    name: req.body.name,
+    description: req.body.description,
+    phone: req.body.phone,
+    email: req.body.email
+  });
+  appointments.save().then(createdAppointment => {
+    res.status(201).json({
+      message: 'Appointment added successfully!',
+      appointmentId: createdAppointment._id
     });
-  }
-
-  const payload = { appointmentDate, name, description, phone, email };
-  req.collection.insertOne(payload)
-    .then(result => res.json(result.ops[0]))
-    .catch(error => res.status(400).json({
-      message: 'No appointments available on that date'
-    }));
+  });
 });
 
 router.delete('/appointments/:id', (req, res, next) => {
-  const { id } = req.params;
-  const _id = ObjectID(id);
-
-  req.collection.deleteOne({ _id })
-    .then(result => res.json(result))
-    .catch(error => res.send(error));
+  Appointment.deleteOne({ _id: req.params.id })
+    .then(result => {
+      res.status(200).json({ message: 'Post deleted!' });
+    });
 });
 
 module.exports = router;

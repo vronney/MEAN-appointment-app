@@ -21,13 +21,15 @@ import { AppointmentListComponent } from './components/appointment-list/appointm
 import { AppointmentComponent } from './components/appointment/appointment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableResponsiveModule } from './directive/mat-table-reponsive/mat-table-reponsive.module';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AppointmentListComponent,
-    AppointmentComponent
+    AppointmentComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
