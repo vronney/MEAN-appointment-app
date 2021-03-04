@@ -15,7 +15,7 @@ const { coerce } = require('debug');
 
 var app = express();
 
-mongoose.connect('mongodb+srv://admin:admin@sandbox.mfdyx.mongodb.net/appointment-bookings?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://<username>:<password>@sandbox.mfdyx.mongodb.net/<database>?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
