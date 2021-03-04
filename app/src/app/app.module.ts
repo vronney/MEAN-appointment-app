@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
+
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
 import { AppointmentComponent } from './components/appointment/appointment.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -44,7 +46,8 @@ import { HeaderComponent } from './components/header/header.component';
     MatNativeDateModule,
     MatToolbarModule,
     NgbModule,
-    MatTableResponsiveModule
+    MatTableResponsiveModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

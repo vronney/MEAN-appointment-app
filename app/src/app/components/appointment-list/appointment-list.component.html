@@ -2,7 +2,7 @@
 <mat-toolbar *ngIf="successMsg" color="accent">{{ successMsg }}</mat-toolbar>
 <mat-toolbar *ngIf="errorMsg" color="warn">{{ errorMsg }}</mat-toolbar>
 
-<div *ngIf="!loading && !loading" class="appointment-container">
+<div *ngIf="!loading && !loading && !mobile" class="appointment-container">
   <h1>Scheduled Appointments</h1>
   <table mat-table matSort matTableResponsive [dataSource]="appointments" class="mat-elevation-z8">
     <ng-container matColumnDef="appointmentDate">
@@ -35,4 +35,28 @@
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
     <tr mat-row *matRowDef="let appointment; columns: columns"></tr>
   </table>
+</div>
+
+<div *ngIf="mobile" class="appointment-cards-container">
+  <mat-card *ngFor="let appointment of appointments" class="card mb-2">
+    <mat-card-header>
+      <div mat-card-avatar class="header-image"></div>
+      <mat-card-title>{{appointment.name}}</mat-card-title>
+      <mat-card-subtitle>{{appointment.appointmentDate | date: 'MM/dd/yyyy'}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Description: {{appointment.description}}
+      </p>
+      <p>
+        Phone: {{appointment.phone}}
+      </p>
+      <p>
+        Email: {{appointment.email}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="d-flex flex-column">
+      <button (click)="onDelete(appointment._id)" mat-raised-button color="primary">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

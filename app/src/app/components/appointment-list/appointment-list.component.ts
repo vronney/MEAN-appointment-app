@@ -5,7 +5,6 @@ import { mergeMap } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appointment-list',
@@ -14,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AppointmentListComponent implements OnInit, OnDestroy {
 
+  mobile = false;
   loading = true;
   errorMsg: string;
   successMsg: string;
@@ -24,6 +24,9 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
   constructor(private appointmentService: AppointmentsService) { }
 
   ngOnInit(): void {
+    if (window.screen.width <= 600) {
+      this.mobile = true;
+    }
     this.loading = true;
     this.appointmentService.getAppointments();
     this.appointmentSub = this.appointmentService.getAppointmentUpdatedListener()
@@ -36,7 +39,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
   onDelete(appointmentId: string) {
     this.appointmentService.cancelAppointment(appointmentId);
     this.appointmentService.getAppointments();
-    this.appointmentService.getAppointments();
+    location.reload();
   }
 
   ngOnDestroy() {

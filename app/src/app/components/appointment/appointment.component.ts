@@ -32,8 +32,8 @@ export class AppointmentComponent implements OnInit {
         return;
       } else {
         this.appointmentService.addAppointment(form.value.appointmentDate, form.value.name, form.value.description, form.value.phone, form.value.email);
-        const date = new Date(form.value.appointmentDate).toDateString()
-        this.successMsg = `Appointment Booked successfully for ${date}`;
+        const date = new Date(form.value.appointmentDate).toDateString();
+        this.successMsg = `Appointment successfully booked for ${date}.`;
       }
       form.resetForm();
   }
