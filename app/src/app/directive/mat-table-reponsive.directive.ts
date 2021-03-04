@@ -35,34 +35,6 @@ export class MatTableResponsiveDirective implements OnInit, OnDestroy {
     this.tbodyObserver.observe(this.tbody, { childList: true });
   }
 
-  // ngAfterViewInit() {
-  //   /**
-  //    * Set the "data-column-name" attribute for every body row cell, either on
-  //    * thead row changes (e.g. language changes) or tbody rows changes (add, delete).
-  //    */
-  //   combineLatest([this.theadChanged$, this.tbodyChanged$])
-  //     .pipe(
-  //       mapTo([this.thead.rows.item(0), this.tbody.rows]),
-  //       map(
-  //         ([headRow, bodyRows]: [HTMLTableRowElement, HTMLCollectionOf<HTMLTableRowElement>]) => [
-  //           [...headRow.children].map(headerCell => headerCell.textContent),
-  //           [...bodyRows].map(row => [...row.children])
-  //         ]
-  //       ),
-  //       takeUntil(this.onDestroy$)
-  //     )
-  //     .subscribe(([columnNames, rows]: [string[], HTMLTableCellElement[][]]) =>
-  //       rows.forEach(rowCells =>
-  //         rowCells.forEach(cell => this.renderer.setAttribute(
-  //             cell,
-  //             "data-column-name",
-  //             columnNames[cell.cellIndex]
-  //           )
-  //         )
-  //       )
-  //     );
-  // }
-
   ngOnDestroy(): void {
     this.theadObserver.disconnect();
     this.tbodyObserver.disconnect();

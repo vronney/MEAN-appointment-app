@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const config = require('./config');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -15,7 +16,7 @@ const { coerce } = require('debug');
 
 var app = express();
 
-mongoose.connect('mongodb+srv://admin:admin@sandbox.mfdyx.mongodb.net/appointment-bookings?retryWrites=true&w=majority', {
+mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@sandbox.mfdyx.mongodb.net/${process.env.DATA_BASE}?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
