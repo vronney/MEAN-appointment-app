@@ -21,8 +21,7 @@ Created a `MEAN stack app` which allowed users to fill out a simple form to subm
 
 First started by building the `Express` backend that configures a few endpoints for retrieving, saving, and removing data from the MongoDB collection via some simple `CRUD` operations.
 
-Then, moved on teh creating the `Angular` front-end which consisted of the display of the appointments data in a list and also to add new appointments, using `Angular Material`.
+Then, moved on the creating the `Angular` front-end which consisted of the display of the appointments data in a list and also to add new appointments, using `Angular Material`.
 
 ## [MEAN-Apponintment-APP](https://github.com/vronney/MEAN-appointment-app)
 
-:END
