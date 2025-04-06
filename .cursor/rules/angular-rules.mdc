@@ -1,0 +1,331 @@
+---
+description:  Web Development Code Style Guide  for Angular
+globs: 
+---
+
+# 🧪 Web Development Code Style Guide  
+**Stack:** Angular (latest), MongoDB (Mongoose), DaisyUI, Tailwind CSS
+
+---
+
+## 🧱 Code Style and Structure
+
+- Use `standalone components` and functional patterns where possible.
+- Prefer **RxJS observables** over `async/await` for asynchronous data flows.
+- Use **pure functions**, services, and dependency injection.
+- Separate **smart (container)** and **dumb (presentational)** components.
+- Organize by feature using this structure:
+
+```
+/feature-name/
+  ├── feature-name.component.ts
+  ├── feature-name.component.html
+  ├── feature-name.component.css (or .tailwind.css)
+  ├── feature-name.service.ts
+  └── feature-name.model.ts
+```
+
+---
+
+## 🏷️ Naming Conventions
+
+| Element        | Convention                |
+|----------------|---------------------------|
+| Folders        | `kebab-case`              |
+| Files          | `kebab-case`              |
+| Variables      | `camelCase`               |
+| Functions      | `camelCase`               |
+| Components     | `PascalCase`              |
+| Services       | `PascalCaseService`       |
+| Interfaces     | `IPascalCase` (optional)  |
+| CSS Selectors  | `kebab-case`              |
+
+---
+
+## ✍️ Syntax and Formatting
+
+- Use `function` keyword for pure helper functions.
+- Avoid curly braces for single-line conditionals.
+- Use `*ngIf`, `*ngFor` declaratively.
+- Prefer `async` pipe in templates over manual subscriptions.
+
+---
+
+## 🎨 UI and Styling
+
+- Use **Tailwind CSS** and **DaisyUI** exclusively.
+- Follow **mobile-first** design principles.
+- Group repeated utilities with `@apply`.
+- Avoid third-party UI libraries unless explicitly approved.
+
+---
+
+## ⚡ Performance Optimization
+
+- Use `OnPush` change detection.
+- Prefer Angular **Signals** (v17+) for reactive state.
+- Lazy load routes and components via `loadComponent` or `loadChildren`.
+- Lazy-load images (`loading="lazy" decoding="async"`).
+- Avoid unnecessary subscriptions in components.
+
+---
+
+## 🔐 Authentication & Routing
+
+- Protect routes with `CanActivate`, `CanLoad` guards.
+- Use Angular Interceptors for attaching auth headers.
+- Avoid `localStorage` for sensitive data unless required; use cookies or memory.
+
+---
+
+## 🌐 Data Layer (MongoDB via REST API)
+
+- Access APIs through services (e.g., `UserService`, `ProductService`).
+- Use Mongoose for backend models.
+- Standardize API responses:
+
+```ts
+interface ApiResponse<T> {
+  data: T;
+  message?: string;
+  error?: string;
+}
+```
+
+---
+
+## 📊 State Management
+
+- Prefer **Angular Signals** or **BehaviorSubject**, **ReplaySubject**.
+- Avoid **NgRx** unless the application complexity justifies it.
+- Use **Angular services** to manage shared state across components.
+
+---
+
+## 🧠 Smart/Presentational Component Architecture
+
+- **Smart components**: Fetch data, manage logic, and handle state.
+- **Presentational components**: Accept `@Input()` and emit `@Output()` events only.
+
+---
+
+## 🌟 Design Philosophy
+
+- All designs must be **production-quality** and **visually outstanding**.
+- Avoid **cookie-cutter UIs**; prioritize intentional layout and user experience.
+- Use **SVG icons** (e.g., Heroicons, Lucide) — avoid installing extra icon libraries unless specifically requested.
+
+---
+
+## 📈 Web Vitals & Best Practices
+
+Optimize for:
+
+- **Largest Contentful Paint (LCP)**
+- **Cumulative Layout Shift (CLS)**
+- **First Input Delay (FID)**
+
+Best Practices:
+
+- Use **font and image preloading** to enhance performance.
+- **Inline critical CSS** when necessary.
+- Use **Angular Universal (SSR)** for SEO and performance optimization where applicable.
+
+---
+
+## 🚫 Avoid
+
+- Avoid using `ngClass` / `ngStyle` for full layout — use **Tailwind CSS** utilities instead.
+- Avoid **class-based logic in templates**; favor a declarative approach.
+- Do **not install additional UI libraries** unless absolutely necessary or explicitly requested.
+
+
+---
+
+## 🔁 Angular 17–19 Features & Conventions
+
+### 🟢 Angular Signals (v17+)
+
+- Use **Signals** as the primary reactive state tool in components and services.
+- Replace `BehaviorSubject`/`ReplaySubject` with `signal()` for local state when applicable.
+- Use `computed()` for derived values and `effect()` for side effects.
+- Example:
+
+```ts
+import { signal, computed, effect } from '@angular/core';
+
+export class CounterComponent {
+  count = signal(0);
+  double = computed(() => this.count() * 2);
+
+  constructor() {
+    effect(() => {
+      console.log('Count changed:', this.count());
+    });
+  }
+
+  increment() {
+    this.count.update(c => c + 1);
+  }
+}
+```
+
+- Use `model()` for bi-directional binding (Angular 18+).
+
+---
+
+### 🚫 Zoned vs. Zoneless
+
+- **Prefer zoneless applications** using `provideZoneChangeDetection(false)` for improved performance.
+- Update bootstrapping:
+
+```ts
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient()
+  ]
+});
+```
+
+- Use `OnPush` or `ChangeDetectionStrategy.Signal` in all components.
+
+---
+
+### 🧱 Standalone Component-First Architecture
+
+- Build all components as **`standalone: true`**.
+- Avoid using `NgModule` unless legacy compatibility is needed.
+- Organize routing using the **standalone Router API**:
+
+```ts
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+  }
+];
+```
+
+---
+
+### 💤 `@defer` Blocks (v17+)
+
+Use `@defer` to lazy-load template blocks:
+
+```html
+@defer (when visible)
+  <lazy-loaded-chart />
+@placeholder
+  <skeleton-chart />
+```
+
+- Useful for large, off-screen sections or dashboard widgets.
+- Combine with `@placeholder` and `@loading` for best UX.
+
+---
+
+### 🖼️ Image Optimization
+
+- Use `NgOptimizedImage` directive from `@angular/common`.
+- Automatically handles lazy-loading, responsive sizes, and decoding.
+
+```html
+<img
+  ngSrc="assets/image.webp"
+  width="400"
+  height="300"
+  alt="Optimized"
+  priority
+/>
+```
+
+- Replace all `<img>` tags with this directive for production apps.
+
+---
+
+### 🧪 Signals vs RxJS – When to Use
+
+| Use Case                        | Prefer Signals        | Prefer RxJS              |
+|----------------------------------|------------------------|---------------------------|
+| Local component state            | ✅ Yes                 | 🚫 Avoid                 |
+| Derived values or computed logic | ✅ Yes                 | 🚫 Avoid                 |
+| Shared app-wide state            | ⚠️ Cautious use       | ✅ Recommended           |
+| HTTP data streams                | 🚫 Not available       | ✅ RxJS (e.g. `HttpClient`) |
+| Complex event-driven flows       | 🚫 Limited             | ✅ RxJS                  |
+
+---
+
+## 🔄 Update Pattern for State with Signals
+
+- Prefer `.update()`, `.mutate()`, `.set()` over `this.state = newValue`.
+- Wrap related logic into `effects()` when state changes trigger DOM or API calls.
+
+---
+
+## 🧩 Signals in Services
+
+```ts
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private _user = signal<User | null>(null);
+  user = this._user.asReadonly();
+
+  setUser(user: User) {
+    this._user.set(user);
+  }
+
+  clearUser() {
+    this._user.set(null);
+  }
+}
+```
+
+- Inject this into components and use `user()` reactively.
+
+---
+
+---
+
+## 📁 Recommended Project Structure
+
+```
+my-angular-project/
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   ├── services/
+│   │   │   ├── guards/
+│   │   │   └── interceptors/
+│   │   ├── features/
+│   │   │   ├── feature1/
+│   │   │   │   ├── components/
+│   │   │   │   ├── services/
+│   │   │   │   └── feature1.routes.ts
+│   │   │   └── feature2/
+│   │   ├── shared/
+│   │   │   ├── components/
+│   │   │   ├── directives/
+│   │   │   └── pipes/
+│   │   ├── app.component.ts
+│   │   ├── app.component.html
+│   │   ├── app.component.css
+│   │   ├── app.routes.ts
+│   │   └── app.config.ts
+│   ├── assets/
+│   ├── environments/
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css
+├── angular.json
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+- Group reusable logic inside `core/`.
+- Share UI parts, directives, and pipes via `shared/`.
+- Keep feature logic isolated within `features/`.
+- Use `app.config.ts` and `app.routes.ts` for standalone app setup.
+
+---
